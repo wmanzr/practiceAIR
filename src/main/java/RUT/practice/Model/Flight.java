@@ -5,14 +5,35 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "flight", schema = "public")
 public class Flight {
+  private int id;
+  private String departure;
+  private String arrival;
   @Id
   @Column(insertable = false, name = "id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  public int getId() {
+    return id;
+  }
 
-  @Column(name = "departure")
-  private String departure;
+  @Column(name = "departure", nullable = false)
+	public String getDeparture() {
+		return departure;
+	}
 
-  @Column(name = "arrival")
-  private String arrival;
+  @Column(name = "arrival", nullable = false)
+	public String getAarrival() {
+		return arrival;
+	}
+
+  public void setId(int id) {
+		this.id = id;
+	}
+
+  public void setDeparture(String departure) {
+		this.departure = departure;
+	}
+
+  public void setArrival(String arrival) {
+		this.arrival = arrival;
+	}
 }

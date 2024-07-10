@@ -5,15 +5,36 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "seats", schema = "public")
 public class Seats {
+  private int id;
+  private int price;
+  private Airplane airplane_id;
   @Id
   @Column(insertable = false, name = "id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int id;
+  public int getId() {
+    return id;
+  }
 
-  @Column(name = "price")
-  private String price;
+  @ManyToOne
+  @JoinColumn(name = "airplane_id", nullable = false)
+  public Airplane getAirplane() {
+    return this.airplane_id;
+  }
 
-  @ManyToOne(optional = false)
-  @JoinColumn(name = "airplane_id")
-  private Airplane airplane;
+  @Column(name = "price", nullable = false)
+	public int getPrice() {
+		return price;
+	}
+
+  public void setId(int id) {
+		this.id = id;
+	}
+
+  public void setAirplane(Airplane airplane) {
+		this.airplane_id = airplane;
+	}
+
+  public void setPrice(int price) {
+		this.price = price;
+	}
 }
