@@ -1,32 +1,25 @@
-package RUT.practice.Model;
+package RUT.practice.Entity;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ticket", schema = "public")
-public class Ticket {
-  private int id;
+public class Ticket extends BaseEntity{
   private int price;
   private String seat;
-  private Passenger passenger_id;
-  private Airfly airfly_id;
-  @Id
-  @Column(insertable = false, name = "id")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  public int getId() {
-    return id;
-  }
+  private Passenger passengerId;
+  private Airfly airflyId;
 
-  @ManyToOne
-  @JoinColumn(name = "passenger_id", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "passengerId", referencedColumnName = "id")
   public Passenger getPassenger() {
-    return this.passenger_id;
+    return this.passengerId;
   }
 
-  @ManyToOne
-  @JoinColumn(name = "airfly_id", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "airflyId", referencedColumnName = "id")
   public Airfly getAirfly() {
-    return this.airfly_id;
+    return this.airflyId;
   }
 
   @Column(name = "price", nullable = false)
@@ -39,16 +32,12 @@ public class Ticket {
 		return seat;
 	}
 
-  public void setId(int id) {
-		this.id = id;
-	}
-
   public void setPassenger(Passenger passenger) {
-		this.passenger_id = passenger;
+		this.passengerId = passenger;
 	}
 
   public void setAirfly(Airfly airfly) {
-		this.airfly_id = airfly;
+		this.airflyId = airfly;
 	}
 
   public void setPrice(int price) {
@@ -58,6 +47,5 @@ public class Ticket {
   public void setSeat(String seat) {
 		this.seat = seat;
 	}
-
 }
 

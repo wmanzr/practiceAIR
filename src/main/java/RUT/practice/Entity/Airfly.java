@@ -1,4 +1,4 @@
-package RUT.practice.Model;
+package RUT.practice.Entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -7,31 +7,23 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "airfly", schema = "public")
-public class Airfly {
-  private int id;
+public class Airfly extends BaseEntity{
   private LocalDate date;
   private LocalTime time;
   private String status;
-  private Flight flight_id;
-  private Airplane airplane_id;
-  
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(insertable = false, name = "id")
-  public int getId() {
-		return id;
-	}
+  private Flight flightId;
+  private Airplane airplaneId;
 
-  @ManyToOne
-  @JoinColumn(name = "flight_id", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "flightId", referencedColumnName = "id")
   public Flight getFlight() {
-    return this.flight_id;
+    return this.flightId;
   }
 
-  @ManyToOne
-  @JoinColumn(name = "airplane_id", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "airplaneId", referencedColumnName = "id")
   public Airplane getAirplane() {
-    return this.airplane_id;
+    return this.airplaneId;
   }
 
   @Column(name = "date", nullable = false)
@@ -49,16 +41,12 @@ public class Airfly {
 		return status;
 	}
 
-  public void setId(int id) {
-		this.id = id;
-	}
-
   public void setFlight(Flight flight) {
-		this.flight_id = flight;
+		this.flightId = flight;
 	}
 
   public void setAirplane(Airplane airplane) {
-		this.airplane_id = airplane;
+		this.airplaneId = airplane;
 	}
 
   public void setDate(LocalDate date) {

@@ -1,4 +1,4 @@
-package RUT.practice.Model;
+package RUT.practice.Entity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -7,23 +7,16 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "service", schema = "public")
-public class Service {
-  private int id;
+public class Service extends BaseEntity{
   private String type;
   private LocalDate date;
   private LocalTime time;
-  private Passenger passenger_id;
-  @Id
-  @Column(insertable = false, name = "id")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  public int getId() {
-    return id;
-  }
+  private Passenger passengerId;
 
-  @ManyToOne
-  @JoinColumn(name = "passenger_id", nullable = false)
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "passengerId", referencedColumnName = "id")
   public Passenger getPassenger() {
-    return this.passenger_id;
+    return this.passengerId;
   }
 
   @Column(name = "date", nullable = false)
@@ -41,10 +34,6 @@ public class Service {
 		return type;
 	}
 
-  public void setId(int id) {
-		this.id = id;
-	}
-
   public void setDate(LocalDate date) {
 		this.date = date;
 	}
@@ -58,6 +47,6 @@ public class Service {
 	}
 
   public void setPassenger(Passenger passenger) {
-		this.passenger_id = passenger;
+		this.passengerId = passenger;
 	}
 }

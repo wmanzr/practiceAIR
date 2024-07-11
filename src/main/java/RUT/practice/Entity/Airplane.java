@@ -1,20 +1,13 @@
-package RUT.practice.Model;
+package RUT.practice.Entity;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "airplane", schema = "public")
-public class Airplane {
-  private int id;
+public class Airplane extends BaseEntity{
   private int seats;
   private String model;
   private String status;
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(insertable = false, name = "id")
-  public int getId() {
-    return id;
-  }
 
   @Column(name = "seats", nullable = false)
 	public int getSeats() {
@@ -29,10 +22,6 @@ public class Airplane {
   @Column(name = "status", nullable = false)
 	public String getStatus() {
 		return status;
-	}
-
-  public void setId(int id) {
-		this.id = id;
 	}
 
   public void setStatus(String status) {
