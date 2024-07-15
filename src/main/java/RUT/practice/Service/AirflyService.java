@@ -9,5 +9,13 @@ public interface AirflyService {
 
     List<Airfly> findAllByStatus(String status);
 
-    List<Seats> findSeatsByDateAndTime(String departure, String arrival);
+    List<Seats> findSeatsByFlight(String departure, String arrival);
+    
+    List<Airfly> findAllAirflies();
+
+    Airfly saveAirfly(Airfly airfly);
+
+    Airfly updateAirfly(Airfly airfly);
+
+    void deleteAirflyById(int id);
 }

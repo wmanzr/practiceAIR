@@ -11,4 +11,12 @@ public interface SeatsService {
     List<Seats> findAllByStatus(String status);
 
     List<Seats> findAllSeatsByAirflyAndBudget(int airflyId, int passengerId);
+
+    List<Seats> findAllSeats();
+
+    Seats saveSeats(Seats seats);
+
+    Seats updateSeats(Seats seats);
+
+    void deleteSeatsById(int id);
 }

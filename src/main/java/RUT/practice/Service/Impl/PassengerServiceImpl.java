@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PassengerServiceImpl implements PassengerService {
@@ -18,7 +19,8 @@ public class PassengerServiceImpl implements PassengerService {
 
     @Override
     public Passenger findPassengerById(int id) {
-        return passengerRepository.findPassengerById(id);
+        Optional<Passenger> optionalPassenger = passengerRepository.findById(id);
+        return optionalPassenger.orElse(null);
     }
 
     @Override
@@ -36,5 +38,25 @@ public class PassengerServiceImpl implements PassengerService {
     @Transactional
     public void ProvidingServicesFood(int passengerId) {
         passengerRepository.ProvidingServicesFood(passengerId);
+    }
+
+    @Override
+    public List<Passenger> findAllPassenger() {
+        return passengerRepository.findAll();
+    }
+
+    @Override
+    public Passenger savePassenger(Passenger passenger) {
+        return passengerRepository.save(passenger);
+    }
+
+    @Override
+    public Passenger updatePassenger(Passenger passenger) {
+        return passengerRepository.save(passenger);
+    }
+
+    @Override
+    public void deletePassengerById(int id) {
+        passengerRepository.deleteById(id);
     }
 }

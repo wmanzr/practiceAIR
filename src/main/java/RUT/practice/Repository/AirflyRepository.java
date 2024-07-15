@@ -32,5 +32,5 @@ public interface AirflyRepository extends JpaRepository <Airfly, Integer> {
                                   "WHERE f3.departure = :departure " +
                                   "AND f3.arrival = :arrival " +
                                   "AND af3.date = af.date))")
-    List<Seats> findSeatsByDateAndTime(@Param(value = "departure") String departure, @Param(value = "arrival") String arrival);
+    List<Seats> findSeatsByFlight(@Param(value = "departure") String departure, @Param(value = "arrival") String arrival);
 }

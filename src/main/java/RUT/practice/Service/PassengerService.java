@@ -13,5 +13,13 @@ public interface PassengerService {
     void ProvidingServicesSpecial(int passengerId);
 
     void ProvidingServicesFood(int passengerId);
+
+    List<Passenger> findAllPassenger();
+
+    Passenger savePassenger(Passenger passenger);
+
+    Passenger updatePassenger(Passenger passenger);
+
+    void deletePassengerById(int id);
 }
 
