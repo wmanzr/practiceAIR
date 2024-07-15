@@ -1,29 +1,28 @@
 package RUT.practice.Repository;
 
 import RUT.practice.Entity.Seats;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import org.hibernate.Session;
+import RUT.practice.Hibernate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface SeatsRepository extends JpaRepository<Seats, Integer> {
+public class SeatsRepository extends BaseRepository<Seats> {
 
-    Seats findSeatsById(int id);
+    public SeatsRepository() {
+        super(Seats.class);
+    }
 
-    List<Seats> findAllByStatus(String status);
-
-    @Query("SELECT s FROM Seats s " +
-           "JOIN s.airplane ap " +
-           "JOIN Airfly af ON af.airplaneId = ap " +
-           "JOIN Ticket t ON t.airfly = af " +
-           "JOIN t.passenger p " +
-           "WHERE af.id = :airflyId " +
-           "AND s.status = 'free' " +
-           "AND s.price <= p.budget " +
-           "AND p.id = :passengerId")
-    List<Seats> findAllSeatsByAirflyAndBudget(@Param("airflyId") int airflyId, 
-                                                    @Param("passengerId") int passengerId);
+    public List<Seats> findFreeSeats(int airplaneId) {
+        try (Session session = Hibernate.getSessionFactory().openSession()) {
+            return session.createQuery(
+                    "SELECT s FROM Seats s WHERE s.airplaneId = :airplaneId AND s.status = 'AVAILABLE'", Seats.class)
+                    .setParameter("airplaneId", airplaneId)
+                    .list();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -15,39 +15,29 @@ public class AirflyController {
     @Autowired
     private AirflyService airflyService;
 
+    @GetMapping("/free-seats")
+    public List<Seats> getAvailableSeats(@RequestParam String departure, @RequestParam String arrival) {
+        return airflyService.getAvailableSeatsForNextAirfly(departure, arrival);
+    }
+
     @GetMapping("/{id}")
     public Airfly getAirflyById(@PathVariable int id) {
-        return airflyService.findAirflyById(id);
+        return airflyService.getById(id);
     }
 
     @GetMapping
     public List<Airfly> getAllAirflies() {
-        return airflyService.findAllAirflies();
-    }
-
-    @GetMapping("/status")
-    public List<Airfly> getAirfliesByStatus(@RequestParam String status) {
-        return airflyService.findAllByStatus(status);
-    }
-
-    @GetMapping("/seats")
-    public List<Seats> getSeatsByFlight(@RequestParam String departure, @RequestParam String arrival) {
-        return airflyService.findSeatsByFlight(departure, arrival);
+        return airflyService.getAll();
     }
 
     @PostMapping
     public Airfly createAirfly(@RequestBody Airfly airfly) {
-        return airflyService.saveAirfly(airfly);
+        return airflyService.create(airfly);
     }
 
     @PutMapping("/{id}")
     public Airfly updateAirfly(@PathVariable int id, @RequestBody Airfly airfly) {
         airfly.setId(id);
-        return airflyService.updateAirfly(airfly);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteAirfly(@PathVariable int id) {
-        airflyService.deleteAirflyById(id);
+        return airflyService.update(airfly);
     }
 }

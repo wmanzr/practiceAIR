@@ -58,6 +58,10 @@ public class Passenger extends BaseEntity{
 		this.pass = pass;
 	}
 
+	public void setHealth(String health) {
+		this.health = health;
+	}
+
 	public void setPreferences(String preferences) {
 		this.preferences = preferences;
 	}

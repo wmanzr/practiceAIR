@@ -1,25 +1,38 @@
 package RUT.practice.Service;
 
 import RUT.practice.Entity.Passenger;
+import RUT.practice.Repository.PassengerRepository;
+import RUT.practice.Service.PassengerService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface PassengerService {
 
-    Passenger findPassengerById(int id);
+@Service
+public class PassengerService implements BaseService<Passenger> {
 
-    List<Passenger> findAllByFisrtnameAndLastname(String firstName, String lastName);
+    @Autowired
+    private PassengerRepository passengerRepository;
+    
+    @Override
+    public Passenger create(Passenger entity) {
+		return passengerRepository.create(entity);
+	}
 
-    void ProvidingServicesSpecial(int passengerId);
+    @Override
+	public List<Passenger> getAll() {
+		return passengerRepository.getAll();
+	}
 
-    void ProvidingServicesFood(int passengerId);
+    @Override
+	public Passenger getById(int id) {
+		return passengerRepository.getById(id);
+	}
 
-    List<Passenger> findAllPassenger();
-
-    Passenger savePassenger(Passenger passenger);
-
-    Passenger updatePassenger(Passenger passenger);
-
-    void deletePassengerById(int id);
+    @Override
+	public Passenger update(Passenger entity) {
+		return passengerRepository.update(entity);
+	}
 }
-

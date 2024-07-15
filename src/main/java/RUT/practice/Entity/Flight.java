@@ -14,7 +14,7 @@ public class Flight extends BaseEntity{
 	}
 
   @Column(name = "arrival", nullable = false)
-	public String getAarrival() {
+	public String getArrival() {
 		return arrival;
 	}
 

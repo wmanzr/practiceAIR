@@ -1,22 +1,39 @@
 package RUT.practice.Service;
 
 import RUT.practice.Entity.Seats;
+import RUT.practice.Repository.SeatsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface SeatsService {
-    
-    Seats findSeatsById(int id);
+@Service
+public class SeatsService implements BaseService<Seats> {
 
-    List<Seats> findAllByStatus(String status);
+    @Autowired
+    private SeatsRepository seatsRepository;
 
-    List<Seats> findAllSeatsByAirflyAndBudget(int airflyId, int passengerId);
+    @Override
+    public Seats create(Seats entity) {
+        return seatsRepository.create(entity);
+    }
 
-    List<Seats> findAllSeats();
+    @Override
+    public List<Seats> getAll() {
+        return seatsRepository.getAll();
+    }
 
-    Seats saveSeats(Seats seats);
+    @Override
+    public Seats getById(int id) {
+        return seatsRepository.getById(id);
+    }
 
-    Seats updateSeats(Seats seats);
+    @Override
+    public Seats update(Seats entity) {
+        return seatsRepository.update(entity);
+    }
 
-    void deleteSeatsById(int id);
+    public List<Seats> findFreeSeats(int airplaneId) {
+        return seatsRepository.findFreeSeats(airplaneId);
+    }
 }
