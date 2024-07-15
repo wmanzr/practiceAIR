@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 @Table(name = "service", schema = "public")
 public class Service extends BaseEntity{
   private String type;
+  private String serv;
   private LocalDate date;
   private LocalTime time;
   private Passenger passengerId;
@@ -34,6 +35,11 @@ public class Service extends BaseEntity{
 		return type;
 	}
 
+	@Column(name = "serv", nullable = false)
+	public String getServ() {
+		return serv;
+	}
+
   public void setDate(LocalDate date) {
 		this.date = date;
 	}
@@ -44,6 +50,10 @@ public class Service extends BaseEntity{
 
   public void setType(String type) {
 		this.type = type;
+	}
+
+	public void setServ(String serv) {
+		this.serv = serv;
 	}
 
   public void setPassenger(Passenger passenger) {

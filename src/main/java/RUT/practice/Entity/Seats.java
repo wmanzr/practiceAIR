@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "seats", schema = "public")
 public class Seats extends BaseEntity{
   private int price;
+  private String status;
   private Airplane airplaneId;
 
   @ManyToOne(fetch = FetchType.LAZY)
@@ -19,11 +20,20 @@ public class Seats extends BaseEntity{
 		return price;
 	}
 
+  @Column(name = "status", nullable = false)
+	public String getStatus() {
+		return status;
+	}
+
   public void setAirplane(Airplane airplane) {
 		this.airplaneId = airplane;
 	}
 
   public void setPrice(int price) {
 		this.price = price;
+	}
+
+  public void setStatus(String status) {
+		this.status = status;
 	}
 }

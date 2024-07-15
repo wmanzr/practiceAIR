@@ -7,8 +7,10 @@ import jakarta.persistence.*;
 public class Passenger extends BaseEntity{
   private String fisrtName;
   private String lastName;
+  private int budget;
   private String pass;
   private String health;
+  private String preferences;
 
   @Column(name = "fisrtName", nullable = false)
 	public String getFisrtname() {
@@ -20,6 +22,11 @@ public class Passenger extends BaseEntity{
 		return lastName;
 	}
 
+	@Column(name = "budget", nullable = false)
+	public int getBudget() {
+		return budget;
+	}
+
   @Column(name = "pass", nullable = false)
 	public String getPass() {
 		return pass;
@@ -28,6 +35,11 @@ public class Passenger extends BaseEntity{
   @Column(name = "health", nullable = false)
 	public String getHealth() {
 		return health;
+	}
+
+	@Column(name = "preferences", nullable = false)
+	public String getPreferences() {
+		return preferences;
 	}
   
   public void setFisrtname(String fisrtName) {
@@ -38,7 +50,15 @@ public class Passenger extends BaseEntity{
 		this.lastName = lastName;
 	}
 
+	public void setBudget(int budget) {
+		this.budget = budget;
+	}
+
   public void setPass(String pass) {
 		this.pass = pass;
+	}
+
+	public void setPreferences(String preferences) {
+		this.preferences = preferences;
 	}
 }
