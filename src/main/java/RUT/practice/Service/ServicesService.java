@@ -39,49 +39,52 @@ public class ServicesService implements BaseService<ServicesDTO> {
         List<Services> createdServices = new ArrayList<>();
         String healthStatus = passenger.getHealth();
         String preferences = passenger.getPreferences();
+
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
     
         // Создаем специальные услуги на основе здоровья пассажира
         if (healthStatus != null) {
             if (healthStatus.contains("Инвалид") || healthStatus.contains("Лишен конечности") || healthStatus.contains("Заболевания головного мозга")) {
-                createdServices.add(createSpecialService("Специальный", "Инвалидная коляска", passenger));
+                createdServices.add(createSpecialService("Специальный", "Инвалидная коляска", passenger, currentDate, currentTime));
             }
             if (healthStatus.contains("Пожилой") || healthStatus.contains("Психологические отклонения")) {
-                createdServices.add(createSpecialService("Специальный", "Сопровождение", passenger));
+                createdServices.add(createSpecialService("Специальный", "Сопровождение", passenger, currentDate, currentTime));
             }
             if (healthStatus.contains("Аллергия на лактозу")) {
-                createdServices.add(createSpecialService("Питание", "Альтернативное молоко", passenger));
+                createdServices.add(createSpecialService("Питание", "Альтернативное молоко", passenger, currentDate, currentTime));
             }
             if (healthStatus.contains("Гастрит")) {
-                createdServices.add(createSpecialService("Питание", "Обезжиренное", passenger));
+                createdServices.add(createSpecialService("Питание", "Обезжиренное", passenger, currentDate, currentTime));
             }
         }
     
         // Создаем специальные услуги на основе предпочтений пассажира
         if (preferences != null) {
             if (preferences.contains("Рыба")) {
-                createdServices.add(createSpecialService("Питание", "Рыба", passenger));
+                createdServices.add(createSpecialService("Питание", "Рыба", passenger, currentDate, currentTime));
             }
             if (preferences.contains("Мясо")) {
-                createdServices.add(createSpecialService("Питание", "Мясо", passenger));
+                createdServices.add(createSpecialService("Питание", "Мясо", passenger, currentDate, currentTime));
             }
             if (preferences.contains("Крепкий кофе")) {
-                createdServices.add(createSpecialService("Питание", "Крепкий кофе", passenger));
+                createdServices.add(createSpecialService("Питание", "Крепкий кофе", passenger, currentDate, currentTime));
             }
         }
     
         return createdServices;
     }
 
-private Services createSpecialService(String type, String serv, Passenger passenger) {
-    Services services = new Services();
-    services.setType(type);
-    services.setServ(serv);
-    services.setDate(LocalDate.now());
-    services.setTime(LocalTime.now());
-    services.setPassenger(passenger);
+    private Services createSpecialService(String type, String serv, Passenger passenger, LocalDate currentDate, LocalTime currentTime) {
+        Services services = new Services();
+        services.setType(type);
+        services.setServ(serv);
+        services.setDate(currentDate);
+        services.setTime(currentTime);
+        services.setPassenger(passenger);
 
-    return servicesRepository.create(services);
-}
+        return servicesRepository.create(services);
+    }
 
     @Override
     public ServicesDTO create(ServicesDTO servicesDTO) {

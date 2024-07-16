@@ -7,6 +7,7 @@ import RUT.practice.Entity.Seats;
 import RUT.practice.Repository.AirflyRepository;
 import RUT.practice.Repository.SeatsRepository;
 import RUT.practice.Service.AirflyService;
+import RUT.practice.Exception.NoFreeSeats;
 import jakarta.transaction.Transactional;
 
 import java.util.List;
@@ -48,6 +49,9 @@ public class AirflyService implements BaseService<AirflyDTO> {
 
         List<Seats> freeSeats = seatsRepository.findFreeSeats(airplaneId, airflyId);
 
+        if (freeSeats == null || freeSeats.size() == 0) {
+            throw new NoFreeSeats(airplaneId);
+        }
         // Находим все доступные места на этом самолете
         return freeSeats.stream()
                 .map(seats -> modelMapper.map(seats, SeatsDTO.class))

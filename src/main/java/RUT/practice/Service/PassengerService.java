@@ -4,6 +4,7 @@ import RUT.practice.DTO.PassengerDTO;
 import RUT.practice.Entity.Airfly;
 import RUT.practice.Entity.Passenger;
 import RUT.practice.Entity.Seats;
+import RUT.practice.Exception.NoFreeSeats;
 import RUT.practice.DTO.SeatsDTO;
 import RUT.practice.Repository.PassengerRepository;
 import RUT.practice.Repository.SeatsRepository;
@@ -50,8 +51,8 @@ public class PassengerService implements BaseService<PassengerDTO> {
         Integer airplaneId = airfly.getAirplane().getId();
         // Находим все свободные места на указанном самолете
         List<Seats> freeSeats = seatsRepository.findFreeSeats(airplaneId, airflyId);
-        if (freeSeats == null) {
-            return List.of(); // Если свободные места не найдены, возвращаем пустой список
+        if (freeSeats == null || freeSeats.size() == 0) {
+            throw new NoFreeSeats(airplaneId);
         }
         // Отбираем только те места, чья стоимость меньше или равна бюджету пассажира
         List<SeatsDTO> affordableSeats = freeSeats.stream()

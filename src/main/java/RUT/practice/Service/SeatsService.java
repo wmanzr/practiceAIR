@@ -30,7 +30,7 @@ public class SeatsService implements BaseService<SeatsDTO> {
     @Override
     public List<SeatsDTO> getAll() {
         return seatsRepository.getAll().stream()
-            .map(airfly -> modelMapper.map(airfly, SeatsDTO.class))
+            .map(seats -> modelMapper.map(seats, SeatsDTO.class))
             .collect(Collectors.toList());
     }
 
