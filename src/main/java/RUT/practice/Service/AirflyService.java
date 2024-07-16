@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,8 @@ public class AirflyService implements BaseService<AirflyDTO> {
     @Transactional
     public List<SeatsDTO> getAvailableSeatsForNextAirfly(String departure, String arrival) {
         LocalDate currentDate = LocalDate.now();
-        List<Airfly> upcomingAirflies = airflyRepository.findUpcomingAirfly(currentDate, departure, arrival);
+        LocalTime currentTime = LocalTime.now();
+        List<Airfly> upcomingAirflies = airflyRepository.findUpcomingAirfly(currentDate, currentTime, departure, arrival);
         if (upcomingAirflies == null || upcomingAirflies.size() == 0) {
             return List.of();
         }
