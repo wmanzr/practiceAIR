@@ -1,9 +1,10 @@
 package RUT.practice.Repository;
 
 import RUT.practice.Entity.Airfly;
-import RUT.practice.Hibernate;
-import org.hibernate.Session;
+import jakarta.persistence.TypedQuery;
+
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,18 +16,18 @@ public class AirflyRepository extends BaseRepository<Airfly> {
         super(Airfly.class);
     }
 
-    public List<Airfly> findUpcomingAirfly(LocalDate currentDate, String departure, String arrival) {
-        try (Session session = Hibernate.getSessionFactory().openSession()) {
-            return session.createQuery("SELECT a FROM Airfly a " +
-                                        "JOIN a.flightId f " +
+@Transactional
+public List<Airfly> findUpcomingAirfly(LocalDate currentDate, String departure, String arrival) {
+    try {
+         TypedQuery<Airfly> query = entityManager.createQuery("SELECT a FROM Airfly a " +
                                         "WHERE a.date >= :currentDate " +
-                                        "AND f.departure = :departure " +
-                                        "AND f.arrival = :arrival " +
+                                        "AND a.flight.departure = :departure " +
+                                        "AND a.flight.arrival = :arrival " +
                                         "ORDER BY a.date ASC, a.time ASC", Airfly.class)
                           .setParameter("currentDate", currentDate)
                           .setParameter("departure", departure)
-                          .setParameter("arrival", arrival)
-                          .list();
+                          .setParameter("arrival", arrival);
+                          return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
         }

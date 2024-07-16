@@ -4,6 +4,7 @@ import RUT.practice.DTO.PassengerDTO;
 import RUT.practice.Entity.Airfly;
 import RUT.practice.Entity.Passenger;
 import RUT.practice.Entity.Seats;
+import RUT.practice.DTO.SeatsDTO;
 import RUT.practice.Repository.PassengerRepository;
 import RUT.practice.Repository.SeatsRepository;
 import RUT.practice.Repository.AirflyRepository;
@@ -32,7 +33,7 @@ public class PassengerService implements BaseService<PassengerDTO> {
     @Autowired
     private ModelMapper modelMapper;
 
-	public List<Seats> getFreeSeatsForBudget(int airflyId, int passengerId) {
+	public List<SeatsDTO> getFreeSeatsForBudget(int airflyId, int passengerId) {
         // Находим пассажира по его идентификатору
         Passenger passenger = passengerRepository.getById(passengerId);
         if (passenger == null) {
@@ -53,12 +54,13 @@ public class PassengerService implements BaseService<PassengerDTO> {
             return List.of(); // Если свободные места не найдены, возвращаем пустой список
         }
         // Отбираем только те места, чья стоимость меньше или равна бюджету пассажира
-        List<Seats> affordableSeats = freeSeats.stream()
+        List<SeatsDTO> affordableSeats = freeSeats.stream()
             .filter(seat -> seat.getPrice() <= passengerBudget)
+            .map(seat -> modelMapper.map(seat, SeatsDTO.class)) // Преобразуем Seats в SeatsDTO
             .collect(Collectors.toList());
         return affordableSeats;
     }
-    
+
     @Override
     public PassengerDTO create(PassengerDTO passengerDTO) {
         Passenger passenger = modelMapper.map(passengerDTO, Passenger.class);

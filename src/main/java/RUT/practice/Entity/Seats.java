@@ -1,5 +1,7 @@
 package RUT.practice.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -12,12 +14,14 @@ public class Seats extends BaseEntity{
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "airplaneId", referencedColumnName = "id")
+  @JsonIgnore
   public Airplane getAirplane() {
     return this.airplaneId;
   }
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "airflyId", referencedColumnName = "id")
+  @JsonIgnore
   public Airfly getAirfly() {
     return this.airflyId;
   }

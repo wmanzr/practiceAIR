@@ -1,11 +1,13 @@
 package RUT.practice.Service;
 
 import RUT.practice.DTO.AirflyDTO;
+import RUT.practice.DTO.SeatsDTO;
 import RUT.practice.Entity.Airfly;
 import RUT.practice.Entity.Seats;
 import RUT.practice.Repository.AirflyRepository;
 import RUT.practice.Repository.SeatsRepository;
 import RUT.practice.Service.AirflyService;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,29 +29,29 @@ public class AirflyService implements BaseService<AirflyDTO> {
     @Autowired
     private ModelMapper modelMapper;
 
-    public List<Seats> getAvailableSeatsForNextAirfly(String departure, String arrival) {
-        // Получаем текущую дату
+    @Transactional
+    public List<SeatsDTO> getAvailableSeatsForNextAirfly(String departure, String arrival) {
         LocalDate currentDate = LocalDate.now();
-
-        // Находим ближайший рейс из Москвы в Санкт-Петербург
         List<Airfly> upcomingAirflies = airflyRepository.findUpcomingAirfly(currentDate, departure, arrival);
-
         if (upcomingAirflies == null || upcomingAirflies.size() == 0) {
-            // Если рейсов нет, возвращаем пустой список
             return List.of();
         }
 
-        // Получаем первый (ближайший) рейс
+        // Получаем первый (ближайший) полет
         Airfly nextAirfly = upcomingAirflies.get(0);
 
-        // Получаем ID самолета для этого рейса
-        Integer airflyId = nextAirfly.getId();
+        // Получаем ID самолета для этого полета
+        int airflyId = nextAirfly.getId();
 
-        // Получаем ID самолета для этого рейса
-        Integer airplaneId = nextAirfly.getAirplane().getId();
+        // Получаем ID самолета для этого полета
+        int airplaneId = nextAirfly.getAirplane().getId();
+
+        List<Seats> freeSeats = seatsRepository.findFreeSeats(airplaneId, airflyId);
 
         // Находим все доступные места на этом самолете
-        return seatsRepository.findFreeSeats(airplaneId, airflyId);
+        return freeSeats.stream()
+                .map(seats -> modelMapper.map(seats, SeatsDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override

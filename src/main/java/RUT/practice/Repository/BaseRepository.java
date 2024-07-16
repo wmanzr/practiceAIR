@@ -11,7 +11,7 @@ public abstract class BaseRepository<Entity> {
     private final Class<Entity> entityClass;
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     public BaseRepository(Class<Entity> entityClass) {
         this.entityClass = entityClass;

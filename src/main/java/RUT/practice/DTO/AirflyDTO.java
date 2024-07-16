@@ -3,9 +3,11 @@ package RUT.practice.DTO;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class AirflyDTO {
     private int id;
     private LocalDate date;

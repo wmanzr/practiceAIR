@@ -1,9 +1,10 @@
 package RUT.practice.Repository;
 
 import RUT.practice.Entity.Seats;
-import org.hibernate.Session;
-import RUT.practice.Hibernate;
+import jakarta.persistence.TypedQuery;
+
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,13 +15,14 @@ public class SeatsRepository extends BaseRepository<Seats> {
         super(Seats.class);
     }
 
+    @Transactional
     public List<Seats> findFreeSeats(int airplaneId, int airflyId) {
-        try (Session session = Hibernate.getSessionFactory().openSession()) {
-            return session.createQuery(
-                    "SELECT s FROM seats s WHERE s.airplaneId = :airplaneId AND s.airflyId = :airflyId AND s.status = 'free'", Seats.class)
-                    .setParameter("airplaneId", airplaneId)
-                    .setParameter("airflyId", airflyId)
-                    .list();
+    try {
+         TypedQuery<Seats> query = entityManager.createQuery(
+                                    "SELECT s FROM Seats s WHERE s.airplane.id = :airplaneId AND s.airfly.id = :airflyId AND s.status = 'free'", Seats.class)
+                                    .setParameter("airplaneId", airplaneId)
+                                    .setParameter("airflyId", airflyId);
+                                    return query.getResultList();
         } catch (Exception e) {
             e.printStackTrace();
         }

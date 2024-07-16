@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import RUT.practice.DTO.PassengerDTO;
-import RUT.practice.Entity.Seats;
+import RUT.practice.DTO.SeatsDTO;
 import RUT.practice.Service.PassengerService;
 
 @RestController
@@ -17,7 +17,7 @@ public class PassengerController {
     private PassengerService passengerService;
 
     @GetMapping("/budget")
-    public List<Seats> getFreeSeatsForBudget(@RequestParam int airflyId, @RequestParam int passengerId) {
+    public List<SeatsDTO> getFreeSeatsForBudget(@RequestParam int airflyId, @RequestParam int passengerId) {
         return passengerService.getFreeSeatsForBudget(airflyId, passengerId);
     }
 

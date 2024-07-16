@@ -1,7 +1,7 @@
 package RUT.practice.Controller;
 
 import RUT.practice.DTO.AirflyDTO;
-import RUT.practice.Entity.Seats;
+import RUT.practice.DTO.SeatsDTO;
 import RUT.practice.Service.AirflyService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class AirflyController {
     private AirflyService airflyService;
 
     @GetMapping("/free-seats")
-    public List<Seats> getAvailableSeats(@RequestParam String departure, @RequestParam String arrival) {
+    public List<SeatsDTO> getAvailableSeats(@RequestParam String departure, @RequestParam String arrival) {
         return airflyService.getAvailableSeatsForNextAirfly(departure, arrival);
     }
 

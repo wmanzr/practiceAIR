@@ -1,8 +1,10 @@
 package RUT.practice.DTO;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class PassengerDTO {
     private int id;
     private String firstName;
