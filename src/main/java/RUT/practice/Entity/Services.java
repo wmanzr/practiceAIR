@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "service", schema = "public")
-public class Service extends BaseEntity{
+public class Services extends BaseEntity{
   private String type;
   private String serv;
   private LocalDate date;

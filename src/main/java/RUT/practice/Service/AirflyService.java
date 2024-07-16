@@ -26,35 +26,42 @@ public class AirflyService implements BaseService<Airfly> {
         LocalDate currentDate = LocalDate.now();
 
         // Находим ближайший рейс из Москвы в Санкт-Петербург
-        List<Airfly> upcomingFlights = airflyRepository.findUpcomingAirfly(currentDate, departure, arrival);
+        List<Airfly> upcomingAirflies = airflyRepository.findUpcomingAirfly(currentDate, departure, arrival);
 
-        if (upcomingFlights.isEmpty()) {
+        if (upcomingAirflies == null || upcomingAirflies.size() == 0) {
             // Если рейсов нет, возвращаем пустой список
             return List.of();
         }
 
         // Получаем первый (ближайший) рейс
-        Airfly nextFlight = upcomingFlights.get(0);
+        Airfly nextAirfly = upcomingAirflies.get(0);
 
         // Получаем ID самолета для этого рейса
-        Integer airplaneId = nextFlight.getAirplane().getId();
+        Integer airflyId = nextAirfly.getId();
+
+        // Получаем ID самолета для этого рейса
+        Integer airplaneId = nextAirfly.getAirplane().getId();
 
         // Находим все доступные места на этом самолете
-        return seatsRepository.findFreeSeats(airplaneId);
+        return seatsRepository.findFreeSeats(airplaneId, airflyId);
     }
 
+    @Override
     public Airfly create(Airfly entity) {
 		return airflyRepository.create(entity);
 	}
 
+    @Override
 	public List<Airfly> getAll() {
 	return airflyRepository.getAll();
 	}
 
+    @Override
 	public Airfly getById(int id) {
 		return airflyRepository.getById(id);
 	}
 
+    @Override
 	public Airfly update(Airfly entity) {
 		return airflyRepository.update(entity);
 	}

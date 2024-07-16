@@ -1,7 +1,6 @@
 package RUT.practice.Entity;
 
 import jakarta.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "airplane", schema = "public")
@@ -9,13 +8,6 @@ public class Airplane extends BaseEntity{
   private int seats;
   private String model;
   private String status;
-  private List<Seats> seatsList;
-
-  @OneToMany(mappedBy = "airplane", cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<Seats> getSeatsList() {
-        return seatsList;
-    }
-
   @Column(name = "seats", nullable = false)
 	public int getSeats() {
 		return seats;
@@ -42,8 +34,4 @@ public class Airplane extends BaseEntity{
   public void setModel(String model) {
 		this.model = model;
 	}
-
-	public void setSeatsList(List<Seats> seatsList) {
-        this.seatsList = seatsList;
-    }
 }

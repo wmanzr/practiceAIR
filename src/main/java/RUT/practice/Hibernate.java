@@ -9,7 +9,7 @@ import RUT.practice.Entity.BaseEntity;
 import RUT.practice.Entity.Flight;
 import RUT.practice.Entity.Passenger;
 import RUT.practice.Entity.Seats;
-import RUT.practice.Entity.Service;
+import RUT.practice.Entity.Services;
 import RUT.practice.Entity.Ticket;
 
 public class Hibernate {
@@ -31,7 +31,7 @@ public class Hibernate {
       .addAnnotatedClass(BaseEntity.class)
       .addAnnotatedClass(Passenger.class)
       .addAnnotatedClass(Seats.class)
-      .addAnnotatedClass(Service.class)
+      .addAnnotatedClass(Services.class)
       .addAnnotatedClass(Ticket.class)
       .buildSessionFactory();
   }

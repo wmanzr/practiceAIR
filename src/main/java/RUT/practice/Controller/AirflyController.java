@@ -3,6 +3,7 @@ package RUT.practice.Controller;
 import RUT.practice.Entity.Airfly;
 import RUT.practice.Entity.Seats;
 import RUT.practice.Service.AirflyService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

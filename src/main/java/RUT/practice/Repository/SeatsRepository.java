@@ -14,11 +14,12 @@ public class SeatsRepository extends BaseRepository<Seats> {
         super(Seats.class);
     }
 
-    public List<Seats> findFreeSeats(int airplaneId) {
+    public List<Seats> findFreeSeats(int airplaneId, int airflyId) {
         try (Session session = Hibernate.getSessionFactory().openSession()) {
             return session.createQuery(
-                    "SELECT s FROM Seats s WHERE s.airplaneId = :airplaneId AND s.status = 'AVAILABLE'", Seats.class)
+                    "SELECT s FROM Seats s WHERE s.airplaneId = :airplaneId AND s.airflyId = :airflyId AND s.status = 'free'", Seats.class)
                     .setParameter("airplaneId", airplaneId)
+                    .setParameter("airflyId", airflyId)
                     .list();
         } catch (Exception e) {
             e.printStackTrace();

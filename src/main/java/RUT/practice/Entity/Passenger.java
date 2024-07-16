@@ -5,16 +5,16 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "passenger", schema = "public")
 public class Passenger extends BaseEntity{
-  private String fisrtName;
+  private String firstName;
   private String lastName;
   private int budget;
   private String pass;
   private String health;
   private String preferences;
 
-  @Column(name = "fisrtName", nullable = false)
-	public String getFisrtname() {
-		return fisrtName;
+  @Column(name = "firstName", nullable = false)
+	public String getFirstname() {
+		return firstName;
 	}
 
   @Column(name = "lastName", nullable = false)
@@ -42,8 +42,8 @@ public class Passenger extends BaseEntity{
 		return preferences;
 	}
   
-  public void setFisrtname(String fisrtName) {
-		this.fisrtName = fisrtName;
+  public void setFirstname(String firstName) {
+		this.firstName = firstName;
 	}
 
   public void setLastname(String lastName) {

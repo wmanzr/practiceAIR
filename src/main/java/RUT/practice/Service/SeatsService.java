@@ -33,7 +33,7 @@ public class SeatsService implements BaseService<Seats> {
         return seatsRepository.update(entity);
     }
 
-    public List<Seats> findFreeSeats(int airplaneId) {
-        return seatsRepository.findFreeSeats(airplaneId);
+    public List<Seats> findFreeSeats(int airplaneId, int airflyId) {
+        return seatsRepository.findFreeSeats(airplaneId, airflyId);
     }
 }
