@@ -29,10 +29,8 @@ public class ServicesService implements BaseService<ServicesDTO> {
     private ModelMapper modelMapper;
 
     public List<Services> createServiceByPassenger(int passengerId) {
-        // Находим пассажира по его идентификатору
         Passenger passenger = passengerRepository.getById(passengerId);
         if (passenger == null) {
-            // Если пассажир не найден, возвращаем пустой список
             return List.of();
         }
     
@@ -43,7 +41,6 @@ public class ServicesService implements BaseService<ServicesDTO> {
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
     
-        // Создаем специальные услуги на основе здоровья пассажира
         if (healthStatus != null) {
             if (healthStatus.contains("Инвалид") || healthStatus.contains("Лишен конечности") || healthStatus.contains("Заболевания головного мозга")) {
                 createdServices.add(createSpecialService("Специальный", "Инвалидная коляска", passenger, currentDate, currentTime));
@@ -59,7 +56,6 @@ public class ServicesService implements BaseService<ServicesDTO> {
             }
         }
     
-        // Создаем специальные услуги на основе предпочтений пассажира
         if (preferences != null) {
             if (preferences.contains("Рыба")) {
                 createdServices.add(createSpecialService("Питание", "Рыба", passenger, currentDate, currentTime));
@@ -71,7 +67,6 @@ public class ServicesService implements BaseService<ServicesDTO> {
                 createdServices.add(createSpecialService("Питание", "Крепкий кофе", passenger, currentDate, currentTime));
             }
         }
-    
         return createdServices;
     }
 

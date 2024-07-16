@@ -40,13 +40,10 @@ public class AirflyService implements BaseService<AirflyDTO> {
             return List.of();
         }
 
-        // Получаем первый (ближайший) полет
         Airfly nextAirfly = upcomingAirflies.get(0);
 
-        // Получаем ID самолета для этого полета
         int airflyId = nextAirfly.getId();
 
-        // Получаем ID самолета для этого полета
         int airplaneId = nextAirfly.getAirplane().getId();
 
         List<Seats> freeSeats = seatsRepository.findFreeSeats(airplaneId, airflyId);
@@ -54,7 +51,7 @@ public class AirflyService implements BaseService<AirflyDTO> {
         if (freeSeats == null || freeSeats.size() == 0) {
             throw new NoFreeSeats(airplaneId);
         }
-        // Находим все доступные места на этом самолете
+        
         return freeSeats.stream()
                 .map(seats -> modelMapper.map(seats, SeatsDTO.class))
                 .collect(Collectors.toList());

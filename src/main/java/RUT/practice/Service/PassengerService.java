@@ -35,29 +35,26 @@ public class PassengerService implements BaseService<PassengerDTO> {
     private ModelMapper modelMapper;
 
 	public List<SeatsDTO> getFreeSeatsForBudget(int airflyId, int passengerId) {
-        // Находим пассажира по его идентификатору
         Passenger passenger = passengerRepository.getById(passengerId);
         if (passenger == null) {
-            return List.of(); // Если пассажир не найден, возвращаем пустой список мест
+            return List.of();
         }
-        // Получаем бюджет пассажира
+
         int passengerBudget = passenger.getBudget();
-        // Находим самолет для указанного полёта
         Airfly airfly = airflyRepository.getById(airflyId);
         if (airfly == null || airfly.getAirplane() == null) {
-            return List.of(); // Если полёт не найден или у него нет самолета, возвращаем пустой список мест
+            return List.of();
         }
-        // Получаем ID самолета для указанного рейса
+
         Integer airplaneId = airfly.getAirplane().getId();
-        // Находим все свободные места на указанном самолете
         List<Seats> freeSeats = seatsRepository.findFreeSeats(airplaneId, airflyId);
         if (freeSeats == null || freeSeats.size() == 0) {
             throw new NoFreeSeats(airplaneId);
         }
-        // Отбираем только те места, чья стоимость меньше или равна бюджету пассажира
+
         List<SeatsDTO> affordableSeats = freeSeats.stream()
             .filter(seat -> seat.getPrice() <= passengerBudget)
-            .map(seat -> modelMapper.map(seat, SeatsDTO.class)) // Преобразуем Seats в SeatsDTO
+            .map(seat -> modelMapper.map(seat, SeatsDTO.class))
             .collect(Collectors.toList());
         return affordableSeats;
     }
