@@ -1,6 +1,6 @@
 package RUT.practice.Controller;
 
-import RUT.practice.Entity.Airfly;
+import RUT.practice.DTO.AirflyDTO;
 import RUT.practice.Entity.Seats;
 import RUT.practice.Service.AirflyService;
 
@@ -22,23 +22,23 @@ public class AirflyController {
     }
 
     @GetMapping("/{id}")
-    public Airfly getAirflyById(@PathVariable int id) {
+    public AirflyDTO getAirflyById(@PathVariable int id) {
         return airflyService.getById(id);
     }
 
     @GetMapping
-    public List<Airfly> getAllAirflies() {
+    public List<AirflyDTO> getAllAirflies() {
         return airflyService.getAll();
     }
 
     @PostMapping
-    public Airfly createAirfly(@RequestBody Airfly airfly) {
-        return airflyService.create(airfly);
+    public AirflyDTO createAirfly(@RequestBody AirflyDTO airflyDTO) {
+        return airflyService.create(airflyDTO);
     }
 
     @PutMapping("/{id}")
-    public Airfly updateAirfly(@PathVariable int id, @RequestBody Airfly airfly) {
-        airfly.setId(id);
-        return airflyService.update(airfly);
+    public AirflyDTO updateAirfly(@PathVariable int id, @RequestBody AirflyDTO airflyDTO) {
+        airflyDTO.setId(id);
+        return airflyService.update(airflyDTO);
     }
 }

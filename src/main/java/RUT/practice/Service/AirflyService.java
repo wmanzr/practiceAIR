@@ -1,5 +1,6 @@
 package RUT.practice.Service;
 
+import RUT.practice.DTO.AirflyDTO;
 import RUT.practice.Entity.Airfly;
 import RUT.practice.Entity.Seats;
 import RUT.practice.Repository.AirflyRepository;
@@ -7,19 +8,24 @@ import RUT.practice.Repository.SeatsRepository;
 import RUT.practice.Service.AirflyService;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.time.LocalDate;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AirflyService implements BaseService<Airfly> {
+public class AirflyService implements BaseService<AirflyDTO> {
 
     @Autowired
     private AirflyRepository airflyRepository;
 
     @Autowired
     private SeatsRepository seatsRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     public List<Seats> getAvailableSeatsForNextAirfly(String departure, String arrival) {
         // Получаем текущую дату
@@ -47,22 +53,29 @@ public class AirflyService implements BaseService<Airfly> {
     }
 
     @Override
-    public Airfly create(Airfly entity) {
-		return airflyRepository.create(entity);
-	}
+    public AirflyDTO create(AirflyDTO airflyDTO) {
+        Airfly airfly = modelMapper.map(airflyDTO, Airfly.class);
+        airfly = airflyRepository.create(airfly);
+        return modelMapper.map(airfly, AirflyDTO.class);
+    }
 
     @Override
-	public List<Airfly> getAll() {
-	return airflyRepository.getAll();
-	}
+    public List<AirflyDTO> getAll() {
+        return airflyRepository.getAll().stream()
+                .map(airfly -> modelMapper.map(airfly, AirflyDTO.class))
+                .collect(Collectors.toList());
+    }
 
     @Override
-	public Airfly getById(int id) {
-		return airflyRepository.getById(id);
-	}
+    public AirflyDTO getById(int id) {
+        Airfly airfly = airflyRepository.getById(id);
+        return modelMapper.map(airfly, AirflyDTO.class);
+    }
 
     @Override
-	public Airfly update(Airfly entity) {
-		return airflyRepository.update(entity);
-	}
+    public AirflyDTO update(AirflyDTO airflyDTO) {
+        Airfly airfly = modelMapper.map(airflyDTO, Airfly.class);
+        airfly = airflyRepository.create(airfly);
+        return modelMapper.map(airfly, AirflyDTO.class);
+    }
 }

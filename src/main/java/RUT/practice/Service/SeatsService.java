@@ -1,36 +1,50 @@
 package RUT.practice.Service;
 
+import RUT.practice.DTO.SeatsDTO;
 import RUT.practice.Entity.Seats;
 import RUT.practice.Repository.SeatsRepository;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-public class SeatsService implements BaseService<Seats> {
+public class SeatsService implements BaseService<SeatsDTO> {
 
     @Autowired
     private SeatsRepository seatsRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
-    public Seats create(Seats entity) {
-        return seatsRepository.create(entity);
+    public SeatsDTO create(SeatsDTO seatsDTO) {
+        Seats seats = modelMapper.map(seatsDTO, Seats.class);
+        seats = seatsRepository.create(seats);
+        return modelMapper.map(seats, SeatsDTO.class);
     }
 
     @Override
-    public List<Seats> getAll() {
-        return seatsRepository.getAll();
+    public List<SeatsDTO> getAll() {
+        return seatsRepository.getAll().stream()
+            .map(airfly -> modelMapper.map(airfly, SeatsDTO.class))
+            .collect(Collectors.toList());
     }
 
     @Override
-    public Seats getById(int id) {
-        return seatsRepository.getById(id);
+    public SeatsDTO getById(int id) {
+        Seats seats = seatsRepository.getById(id);
+        return modelMapper.map(seats, SeatsDTO.class);
     }
 
     @Override
-    public Seats update(Seats entity) {
-        return seatsRepository.update(entity);
+    public SeatsDTO update(SeatsDTO seatsDTO) {
+        Seats seats = modelMapper.map(seatsDTO, Seats.class);
+        seats = seatsRepository.create(seats);
+        return modelMapper.map(seats, SeatsDTO.class);
     }
 
     public List<Seats> findFreeSeats(int airplaneId, int airflyId) {

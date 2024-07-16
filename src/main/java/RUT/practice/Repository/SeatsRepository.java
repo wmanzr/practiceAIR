@@ -17,7 +17,7 @@ public class SeatsRepository extends BaseRepository<Seats> {
     public List<Seats> findFreeSeats(int airplaneId, int airflyId) {
         try (Session session = Hibernate.getSessionFactory().openSession()) {
             return session.createQuery(
-                    "SELECT s FROM Seats s WHERE s.airplaneId = :airplaneId AND s.airflyId = :airflyId AND s.status = 'free'", Seats.class)
+                    "SELECT s FROM seats s WHERE s.airplaneId = :airplaneId AND s.airflyId = :airflyId AND s.status = 'free'", Seats.class)
                     .setParameter("airplaneId", airplaneId)
                     .setParameter("airflyId", airflyId)
                     .list();

@@ -1,5 +1,6 @@
 package RUT.practice.Service;
 
+import RUT.practice.DTO.PassengerDTO;
 import RUT.practice.Entity.Airfly;
 import RUT.practice.Entity.Passenger;
 import RUT.practice.Entity.Seats;
@@ -8,6 +9,7 @@ import RUT.practice.Repository.SeatsRepository;
 import RUT.practice.Repository.AirflyRepository;
 import RUT.practice.Service.PassengerService;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 
 
 @Service
-public class PassengerService implements BaseService<Passenger> {
+public class PassengerService implements BaseService<PassengerDTO> {
 
     @Autowired
     private PassengerRepository passengerRepository;
@@ -27,57 +29,60 @@ public class PassengerService implements BaseService<Passenger> {
 	@Autowired
     private AirflyRepository airflyRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
 	public List<Seats> getFreeSeatsForBudget(int airflyId, int passengerId) {
         // Находим пассажира по его идентификатору
         Passenger passenger = passengerRepository.getById(passengerId);
         if (passenger == null) {
             return List.of(); // Если пассажир не найден, возвращаем пустой список мест
         }
-
         // Получаем бюджет пассажира
         int passengerBudget = passenger.getBudget();
-
         // Находим самолет для указанного полёта
         Airfly airfly = airflyRepository.getById(airflyId);
         if (airfly == null || airfly.getAirplane() == null) {
             return List.of(); // Если полёт не найден или у него нет самолета, возвращаем пустой список мест
         }
-
         // Получаем ID самолета для указанного рейса
         Integer airplaneId = airfly.getAirplane().getId();
-
         // Находим все свободные места на указанном самолете
         List<Seats> freeSeats = seatsRepository.findFreeSeats(airplaneId, airflyId);
-
         if (freeSeats == null) {
             return List.of(); // Если свободные места не найдены, возвращаем пустой список
         }
-
         // Отбираем только те места, чья стоимость меньше или равна бюджету пассажира
         List<Seats> affordableSeats = freeSeats.stream()
-                .filter(seat -> seat.getPrice() <= passengerBudget)
-                .collect(Collectors.toList());
-
+            .filter(seat -> seat.getPrice() <= passengerBudget)
+            .collect(Collectors.toList());
         return affordableSeats;
     }
     
     @Override
-    public Passenger create(Passenger entity) {
-		return passengerRepository.create(entity);
-	}
+    public PassengerDTO create(PassengerDTO passengerDTO) {
+        Passenger passenger = modelMapper.map(passengerDTO, Passenger.class);
+        passenger = passengerRepository.create(passenger);
+        return modelMapper.map(passenger, PassengerDTO.class);
+    }
 
     @Override
-	public List<Passenger> getAll() {
-		return passengerRepository.getAll();
-	}
+    public List<PassengerDTO> getAll() {
+        return passengerRepository.getAll().stream()
+            .map(passenger -> modelMapper.map(passenger, PassengerDTO.class))
+            .collect(Collectors.toList());
+    }
 
     @Override
-	public Passenger getById(int id) {
-		return passengerRepository.getById(id);
-	}
+    public PassengerDTO getById(int id) {
+        Passenger passenger = passengerRepository.getById(id);
+        return modelMapper.map(passenger, PassengerDTO.class);
+    }
 
     @Override
-	public Passenger update(Passenger entity) {
-		return passengerRepository.update(entity);
-	}
+    public PassengerDTO update(PassengerDTO passengerDTO) {
+        Passenger passenger = modelMapper.map(passengerDTO, Passenger.class);
+        passenger = passengerRepository.create(passenger);
+        return modelMapper.map(passenger, PassengerDTO.class);
+    }
 }

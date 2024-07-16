@@ -1,5 +1,6 @@
 package RUT.practice.Controller;
 
+import RUT.practice.DTO.ServicesDTO;
 import RUT.practice.Entity.Services;
 import RUT.practice.Service.ServicesService;
 
@@ -21,23 +22,23 @@ public class ServicesController {
     }
 
     @GetMapping("/{id}")
-    public Services getServicesById(@PathVariable int id) {
+    public ServicesDTO getServicesById(@PathVariable int id) {
         return servicesService.getById(id);
     }
 
     @GetMapping
-    public List<Services> getAllServices() {
+    public List<ServicesDTO> getAllServices() {
         return servicesService.getAll();
     }
 
     @PostMapping
-    public Services createServices(@RequestBody Services services) {
-        return servicesService.create(services);
+    public ServicesDTO createServices(@RequestBody ServicesDTO servicesDTO) {
+        return servicesService.create(servicesDTO);
     }
 
     @PutMapping("/{id}")
-    public Services updateServices(@PathVariable int id, @RequestBody Services services) {
-        services.setId(id);
-        return servicesService.update(services);
+    public ServicesDTO updateServices(@PathVariable int id, @RequestBody ServicesDTO servicesDTO) {
+        servicesDTO.setId(id);
+        return servicesService.update(servicesDTO);
     }
 }

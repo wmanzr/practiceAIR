@@ -17,9 +17,12 @@ public class AirflyRepository extends BaseRepository<Airfly> {
 
     public List<Airfly> findUpcomingAirfly(LocalDate currentDate, String departure, String arrival) {
         try (Session session = Hibernate.getSessionFactory().openSession()) {
-            return session.createQuery("SELECT a FROM Airfly a WHERE a.date >= :currentDate " +
-                                       "AND a.flightId.departure = :departure " +
-                                       "AND a.flightId.arrival = :arrival ORDER BY a.date ASC, a.time ASC", Airfly.class)
+            return session.createQuery("SELECT a FROM Airfly a " +
+                                        "JOIN a.flightId f " +
+                                        "WHERE a.date >= :currentDate " +
+                                        "AND f.departure = :departure " +
+                                        "AND f.arrival = :arrival " +
+                                        "ORDER BY a.date ASC, a.time ASC", Airfly.class)
                           .setParameter("currentDate", currentDate)
                           .setParameter("departure", departure)
                           .setParameter("arrival", arrival)

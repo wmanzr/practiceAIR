@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import RUT.practice.Entity.Passenger;
+import RUT.practice.DTO.PassengerDTO;
 import RUT.practice.Entity.Seats;
 import RUT.practice.Service.PassengerService;
 
@@ -22,23 +22,23 @@ public class PassengerController {
     }
 
     @GetMapping("/{id}")
-    public Passenger getPassengerById(@PathVariable int id) {
+    public PassengerDTO getPassengerById(@PathVariable int id) {
         return passengerService.getById(id);
     }
 
     @GetMapping
-    public List<Passenger> getAllPassengers() {
+    public List<PassengerDTO> getAllPassengers() {
         return passengerService.getAll();
     }
 
     @PostMapping
-    public Passenger createPassenger(@RequestBody Passenger passenger) {
-        return passengerService.create(passenger);
+    public PassengerDTO createPassenger(@RequestBody PassengerDTO passengerDTO) {
+        return passengerService.create(passengerDTO);
     }
 
     @PutMapping("/{id}")
-    public Passenger updatePassenger(@PathVariable int id, @RequestBody Passenger passenger) {
-        passenger.setId(id);
-        return passengerService.update(passenger);
+    public PassengerDTO updatePassenger(@PathVariable int id, @RequestBody PassengerDTO passengerDTO) {
+        passengerDTO.setId(id);
+        return passengerService.update(passengerDTO);
     }
 }
