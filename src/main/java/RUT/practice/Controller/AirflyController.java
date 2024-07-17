@@ -1,8 +1,7 @@
 package RUT.practice.Controller;
 
-import RUT.practice.DTO.AirflyDTO;
 import RUT.practice.DTO.SeatsDTO;
-import RUT.practice.Service.AirflyService;
+import RUT.practice.Service.Impl.AirflyServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -10,35 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/airflies")
+@RequestMapping("/airflies")
 public class AirflyController {
 
     @Autowired
-    private AirflyService airflyService;
+    private AirflyServiceImpl airflyService;
 
     @GetMapping("/free-seats")
     public List<SeatsDTO> getAvailableSeats(@RequestParam String departure, @RequestParam String arrival) {
         return airflyService.getAvailableSeatsForNextAirfly(departure, arrival);
-    }
-
-    @GetMapping("/{id}")
-    public AirflyDTO getAirflyById(@PathVariable int id) {
-        return airflyService.getById(id);
-    }
-
-    @GetMapping
-    public List<AirflyDTO> getAllAirflies() {
-        return airflyService.getAll();
-    }
-
-    @PostMapping
-    public AirflyDTO createAirfly(@RequestBody AirflyDTO airflyDTO) {
-        return airflyService.create(airflyDTO);
-    }
-
-    @PutMapping("/{id}")
-    public AirflyDTO updateAirfly(@PathVariable int id, @RequestBody AirflyDTO airflyDTO) {
-        airflyDTO.setId(id);
-        return airflyService.update(airflyDTO);
     }
 }

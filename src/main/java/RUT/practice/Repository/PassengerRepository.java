@@ -1,12 +1,9 @@
 package RUT.practice.Repository;
 
 import RUT.practice.Entity.Passenger;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public class PassengerRepository extends BaseRepository<Passenger> {
+public interface PassengerRepository {
 
-    public PassengerRepository() {
-        super(Passenger.class);
-    }
+public Passenger getById(int passengerId);
+
 }

@@ -1,39 +1,13 @@
 package RUT.practice.Repository;
 
-import RUT.practice.Entity.Airfly;
-import jakarta.persistence.TypedQuery;
-
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-@Repository
-public class AirflyRepository extends BaseRepository<Airfly> {
-    
-    public AirflyRepository() {
-        super(Airfly.class);
-    }
+import RUT.practice.Entity.Airfly;
 
-@Transactional
-public List<Airfly> findUpcomingAirfly(LocalDate currentDate, LocalTime currentTime, String departure, String arrival) {
-    try {
-         TypedQuery<Airfly> query = entityManager.createQuery("SELECT a FROM Airfly a " +
-                                        "WHERE a.date >= :currentDate " +
-                                        "AND a.time >= :currentTime " +
-                                        "AND a.flight.departure = :departure " +
-                                        "AND a.flight.arrival = :arrival " +
-                                        "ORDER BY a.date ASC, a.time ASC", Airfly.class)
-                          .setParameter("currentDate", currentDate)
-                          .setParameter("currentTime", currentTime)
-                          .setParameter("departure", departure)
-                          .setParameter("arrival", arrival);
-                          return query.getResultList();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+public interface AirflyRepository {
+
+List<Airfly> findUpcomingAirfly(LocalDate currentDate, LocalTime currentTime, String departure, String arrival);
+public Airfly getById(int airflyId);
 }
