@@ -5,10 +5,11 @@ import RUT.practice.Entity.Passenger;
 import RUT.practice.Entity.Seats;
 import RUT.practice.Exception.NoFreeSeats;
 import RUT.practice.DTO.SeatsDTO;
-import RUT.practice.Repository.PassengerRepository;
 import RUT.practice.Repository.Impl.SeatsRepositoryImpl;
 import RUT.practice.Service.PassengerService;
 import RUT.practice.Service.Impl.PassengerServiceImpl;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import RUT.practice.Repository.AirflyRepository;
 
 import org.modelmapper.ModelMapper;
@@ -22,8 +23,8 @@ import java.util.stream.Collectors;
 @Service
 public class PassengerServiceImpl implements PassengerService {
 
-    @Autowired
-    private PassengerRepository passengerRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
 	@Autowired
     private SeatsRepositoryImpl seatsRepository;
@@ -35,7 +36,7 @@ public class PassengerServiceImpl implements PassengerService {
     private ModelMapper modelMapper;
 
 	public List<SeatsDTO> getFreeSeatsForBudget(int airflyId, int passengerId) {
-        Passenger passenger = passengerRepository.getById(passengerId);
+        Passenger passenger = entityManager.find(Passenger.class, passengerId);
         if (passenger == null) {
             return List.of();
         }

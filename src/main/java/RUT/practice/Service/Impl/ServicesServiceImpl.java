@@ -6,21 +6,16 @@ import RUT.practice.Service.ServicesService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
-import RUT.practice.Repository.PassengerRepository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ServicesServiceImpl implements ServicesService {
-
-    @Autowired
-    private PassengerRepository passengerRepository;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -28,7 +23,7 @@ public class ServicesServiceImpl implements ServicesService {
     @Override
     @Transactional
     public List<Services> createServiceByPassenger(int passengerId) {
-        Passenger passenger = passengerRepository.getById(passengerId);
+        Passenger passenger = entityManager.find(Passenger.class, passengerId);
         if (passenger == null) {
             return List.of();
         }
