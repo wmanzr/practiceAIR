@@ -29,39 +29,46 @@ public class ServicesServiceImpl implements ServicesService {
         }
     
         List<Services> createdServices = new ArrayList<>();
-        String healthStatus = passenger.getHealth();
-        String preferences = passenger.getPreferences();
-
         LocalDate currentDate = LocalDate.now();
         LocalTime currentTime = LocalTime.now();
     
-        if (healthStatus != null) {
-            if (healthStatus.contains("Инвалид") || healthStatus.contains("Лишен конечности") || healthStatus.contains("Заболевания головного мозга")) {
-                createdServices.add(createSpecialService("Специальный", "Инвалидная коляска", passenger, currentDate, currentTime));
-            }
-            if (healthStatus.contains("Пожилой") || healthStatus.contains("Психологические отклонения")) {
-                createdServices.add(createSpecialService("Специальный", "Сопровождение", passenger, currentDate, currentTime));
-            }
-            if (healthStatus.contains("Аллергия на лактозу")) {
-                createdServices.add(createSpecialService("Питание", "Альтернативное молоко", passenger, currentDate, currentTime));
-            }
-            if (healthStatus.contains("Гастрит")) {
-                createdServices.add(createSpecialService("Питание", "Обезжиренное", passenger, currentDate, currentTime));
-            }
-        }
-    
-        if (preferences != null) {
-            if (preferences.contains("Рыба")) {
-                createdServices.add(createSpecialService("Питание", "Рыба", passenger, currentDate, currentTime));
-            }
-            if (preferences.contains("Мясо")) {
-                createdServices.add(createSpecialService("Питание", "Мясо", passenger, currentDate, currentTime));
-            }
-            if (preferences.contains("Крепкий кофе")) {
-                createdServices.add(createSpecialService("Питание", "Крепкий кофе", passenger, currentDate, currentTime));
-            }
-        }
+        addHealthBasedServices(createdServices, passenger, currentDate, currentTime);
+        addPreferenceBasedServices(createdServices, passenger, currentDate, currentTime);
+
         return createdServices;
+    }
+
+    private void addHealthBasedServices(List<Services> services, Passenger passenger, LocalDate currentDate, LocalTime currentTime) {
+        String healthStatus = passenger.getHealth();
+        if (healthStatus == null) return;
+
+        if (healthStatus.contains("Инвалид") || healthStatus.contains("Лишен конечности") || healthStatus.contains("Заболевания головного мозга")) {
+            services.add(createSpecialService("Специальный", "Инвалидная коляска", passenger, currentDate, currentTime));
+        }
+        if (healthStatus.contains("Пожилой") || healthStatus.contains("Психологические отклонения")) {
+            services.add(createSpecialService("Специальный", "Сопровождение", passenger, currentDate, currentTime));
+        }
+        if (healthStatus.contains("Аллергия на лактозу")) {
+            services.add(createSpecialService("Питание", "Альтернативное молоко", passenger, currentDate, currentTime));
+        }
+        if (healthStatus.contains("Гастрит")) {
+            services.add(createSpecialService("Питание", "Обезжиренное", passenger, currentDate, currentTime));
+        }
+    }
+
+    private void addPreferenceBasedServices(List<Services> services, Passenger passenger, LocalDate currentDate, LocalTime currentTime) {
+        String preferences = passenger.getPreferences();
+        if (preferences == null) return;
+
+        if (preferences.contains("Рыба")) {
+            services.add(createSpecialService("Питание", "Рыба", passenger, currentDate, currentTime));
+        }
+        if (preferences.contains("Мясо")) {
+            services.add(createSpecialService("Питание", "Мясо", passenger, currentDate, currentTime));
+        }
+        if (preferences.contains("Крепкий кофе")) {
+            services.add(createSpecialService("Питание", "Крепкий кофе", passenger, currentDate, currentTime));
+        }
     }
 
     private Services createSpecialService(String type, String serv, Passenger passenger, LocalDate currentDate, LocalTime currentTime) {
