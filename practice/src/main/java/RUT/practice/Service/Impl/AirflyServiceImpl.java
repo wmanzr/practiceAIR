@@ -60,7 +60,7 @@ public class AirflyServiceImpl implements AirflyService {
             return List.of();
         }
 
-        Airfly nextAirfly = upcomingAirflies.get(0);
+        Airfly nextAirfly = airflyRepository.getById(upcomingAirflies.get(0).getId());
 
         int airflyId = nextAirfly.getId();
 

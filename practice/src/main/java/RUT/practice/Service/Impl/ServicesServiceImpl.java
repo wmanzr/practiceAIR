@@ -2,9 +2,9 @@ package RUT.practice.Service.Impl;
 
 import RUT.practice.Entity.Passenger;
 import RUT.practice.Entity.Services;
+import RUT.practice.Repository.PassengerRepository;
+import RUT.practice.Repository.ServicesRepository;
 import RUT.practice.Service.ServicesService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
@@ -12,18 +12,37 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ServicesServiceImpl implements ServicesService {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    private PassengerRepository passengerRepository;
+    private ServicesRepository servicesRepository;
+
+    public PassengerRepository getPassengerRepository() {
+        return this.passengerRepository;
+    }
+
+    @Autowired
+    public void setPassengerRepository(PassengerRepository passengerRepository) {
+        this.passengerRepository = passengerRepository;
+    }
+
+    public ServicesRepository getServicesRepository() {
+        return this.servicesRepository;
+    }
+
+    @Autowired
+    public void setServicesRepository(ServicesRepository servicesRepository) {
+        this.servicesRepository = servicesRepository;
+    }
 
     @Override
     @Transactional
     public List<Services> createServiceByPassenger(int passengerId) {
-        Passenger passenger = entityManager.find(Passenger.class, passengerId);
+        Passenger passenger = passengerRepository.getById(passengerId);
         if (passenger == null) {
             return List.of();
         }
@@ -79,7 +98,7 @@ public class ServicesServiceImpl implements ServicesService {
         services.setTime(currentTime);
         services.setPassenger(passenger);
 
-        entityManager.persist(services);
+        servicesRepository.create(services);
         return services;
     }
 }

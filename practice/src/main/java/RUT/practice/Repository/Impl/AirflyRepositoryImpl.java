@@ -35,11 +35,10 @@ public class AirflyRepositoryImpl extends BaseRepository<Airfly, Integer> implem
                                     .setParameter("arrival", arrival)
                                     .getResultList();
                                 }
-    
+
     @Override
     public Airfly getById(int airflyId) {
-        return entityManager.createQuery("from Airfly a where a.id = :airflyId", Airfly.class)
-                                    .setParameter("airflyId", airflyId)
-                                    .getSingleResult();
+        return super.getById(airflyId);
     }
+    
 }

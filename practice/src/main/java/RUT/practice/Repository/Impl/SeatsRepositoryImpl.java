@@ -22,7 +22,8 @@ public class SeatsRepositoryImpl extends BaseRepository<Seats, Integer> implemen
 
     @Override
     public List<Seats> findFreeSeats(int airplaneId, int airflyId) {
-        return entityManager.createQuery("SELECT s FROM Seats s WHERE s.airplane.id = :airplaneId AND s.airfly.id = :airflyId AND s.status = 'free'", Seats.class)
+        return entityManager.createQuery("SELECT s FROM Seats s WHERE s.airplane.id = :airplaneId " +
+                                         "AND s.airfly.id = :airflyId AND s.status = 'free'", Seats.class)
                                     .setParameter("airplaneId", airplaneId)
                                     .setParameter("airflyId", airflyId)
                                     .getResultList();
